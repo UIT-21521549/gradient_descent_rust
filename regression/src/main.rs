@@ -56,21 +56,16 @@ fn main() {
             // Chia data thành X và Y
             println!("{:?}",data);
             let X: Vec<Vec<f64>> = data[0..(len - 1)].iter().map(|v| v.clone()).collect();
-            let Y: Vec<f32> = data[len - 1].iter().map(|v| *v as f32).collect();
+            let Y: Vec<f64> = data[len - 1].iter().map(|v| *v as f64).collect();
             println!("{:?}",X);
             // Khởi tạo một instance của Model
-            let mut model = Model {
-                x: X,
-                y: Y,
-                weight: vec![], // Khởi tạo trọng số trống ban đầu
-                loss: 0.0,      // Khởi tạo loss ban đầu là 0
-            };
-
-            // Gọi phương thức init để khởi tạo trọng số và loss
-            model.init();
+            let mut model = Model::new(X, Y);
 
             // Huấn luyện model trong 100 epochs
-            model.train(100,0.1);
+            let x = vec![0.5, 6.0];
+            model.train(2000,0.01);
+            let y = model.predict(x);
+            println!("Predict: {}", y);
         }
         Err(err) => {
             println!("Error: {}", err);
